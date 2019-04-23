@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+// import axios from "../../axios";
 
 import Post from "../../components/Post/Post";
 import FullPost from "../../components/FullPost/FullPost";
@@ -9,11 +10,12 @@ import "./Blog.css";
 class Blog extends Component {
   state = {
     posts: [],
-    selectedPostId: null
+    selectedPostId: null,
+    error: false
   };
   componentDidMount() {
     axios
-      .get("https://jsonplaceholder.typicode.com/posts")
+      .get("/posts")
       .then(response => {
         const posts = response.data.slice(0, 4);
         const updatedPost = posts.map(post => {
@@ -26,8 +28,10 @@ class Blog extends Component {
           posts: updatedPost
         });
       })
-      .catch(erroe => {
-        console.log("Error");
+      .catch(error => {
+        this.setState({
+          error: true
+        });
       });
   }
 
@@ -38,16 +42,19 @@ class Blog extends Component {
   };
 
   render() {
-    const posts = this.state.posts.map(post => {
-      return (
-        <Post
-          key={post.id}
-          title={post.title}
-          author={post.author}
-          clicked={() => this.fullPostHandler(post.id)}
-        />
-      );
-    });
+    let posts = <p style={{ textAlign: "center" }}>Somethind went wrong!</p>;
+    if (!this.state.error) {
+      posts = this.state.posts.map(post => {
+        return (
+          <Post
+            key={post.id}
+            title={post.title}
+            author={post.author}
+            clicked={() => this.fullPostHandler(post.id)}
+          />
+        );
+      });
+    }
     return (
       <div>
         <section className="Posts">{posts}</section>
