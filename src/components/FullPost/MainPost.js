@@ -1,35 +1,12 @@
-// import React from "react";
-
-// import "./Post.css";
-// // import axios from "axios";
-
-// const post = props => (
-//   <article className="Post" onClick={props.clicked}>
-//     <h1>{props.title}</h1>
-//     <div className="Info">
-//       <div className="Author">{props.author}</div>
-//     </div>
-//   </article>
-// );
-
-// export default post;
-
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 const styles = {
-	card: {
-		minWidth: 275,
-		width: 275,
-		margin: 5,
-		textAlign: "center"
-	},
 	bullet: {
 		display: "inline-block",
 		margin: "0 2px",
@@ -43,40 +20,38 @@ const styles = {
 	}
 };
 
-function SimpleCard(props) {
+function Main(props) {
 	const { classes } = props;
 	// const bull = <span className={classes.bullet}>•</span>;
 
 	return (
-		<Card className={classes.card}>
+		<Card className={props.className}>
 			<CardContent>
 				<Typography variant="h5" component="h2">
-					{props.author}
+					{props.title}
 				</Typography>
 				<Typography className={classes.pos} color="textSecondary">
-					{props.author}
+					{props.title}
 				</Typography>
 				<Typography component="p">
-					{props.title}
+					{props.body}
 					<br />
 					{'"a benevolent smile"'}
 				</Typography>
-			</CardContent>
-			<CardActions>
 				<Button
-					size="small"
 					variant="outlined"
-					color="primary"
-					onClick={props.clicked}>
-					Learn More
+					color="secondary"
+					size="small"
+					onClick={props.onClick_}>
+					Delete
 				</Button>
-			</CardActions>
+			</CardContent>
 		</Card>
 	);
 }
 
-SimpleCard.propTypes = {
+Main.propTypes = {
 	classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SimpleCard);
+export default withStyles(styles)(Main);
