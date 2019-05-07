@@ -1,58 +1,63 @@
 import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
 import axios from "axios";
 
 import "./FullPost.css";
+// import Title from "./title";
+import { Load, Title } from "./Load";
 
 class FullPost extends Component {
-  state = {
-    loadedPost: null
-  };
+	state = {
+		loadedPost: null
+	};
 
-  componentDidUpdate() {
-    if (this.props.id) {
-      if (
-        !this.state.loadedPost ||
-        (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)
-      ) {
-        axios
-          .get("/posts/" + this.props.id)
-          .then(response => {
-            this.setState({ loadedPost: response.data });
-            console.log(this.state.loadedPost);
-          })
-          .catch(error => {
-            console.log("Error");
-          });
-      }
-    }
-  }
+	componentDidUpdate() {
+		if (this.props.id) {
+			if (
+				!this.state.loadedPost ||
+				(this.state.loadedPost && this.state.loadedPost.id !== this.props.id)
+			) {
+				axios
+					.get("/posts/" + this.props.id)
+					.then(response => {
+						this.setState({ loadedPost: response.data });
+						console.log(this.state.loadedPost);
+					})
+					.catch(error => {
+						console.log("Error");
+					});
+			}
+		}
+	}
 
-  deletePostHandler = () => {
-    axios.delete("/posts/" + this.props.id).then(response => {
-      console.log(response);
-    });
-  };
+	deletePostHandler = () => {
+		axios.delete("/posts/" + this.props.id).then(response => {
+			console.log(response);
+		});
+	};
 
-  render() {
-    let post = <p style={{ textAlign: "center" }}>Please select a Post !</p>;
-    if (this.props.id) {
-      post = <p style={{ textAlign: "center" }}>Loading...........!</p>;
-    }
-    if (this.state.loadedPost) {
-      post = (
-        <div className="FullPost">
-          <h1>{this.state.loadedPost.title}</h1>
-          <p>{this.state.loadedPost.body}</p>
-          <div className="Edit">
-            <button onClick={() => this.deletePostHandler()} className="Delete">
-              Delete
-            </button>
-          </div>
-        </div>
-      );
-    }
-    return post;
-  }
+	render() {
+		let post = <Title />;
+		if (this.props.id) {
+			post = <Load />;
+		}
+		if (this.state.loadedPost) {
+			post = (
+				<div className="FullPost">
+					<h1>{this.state.loadedPost.title}</h1>
+					<p>{this.state.loadedPost.body}</p>
+					<Button
+						variant="outlined"
+						color="secondary"
+						size="small"
+						onClick={() => this.deletePostHandler()}>
+						Delete
+					</Button>
+				</div>
+			);
+		}
+		return post;
+	}
 }
 
 export default FullPost;
