@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
 import axios from "axios";
 import "./NewPost.css";
 
@@ -51,7 +52,13 @@ class NewPost extends Component {
           <option value="Manu">Zaitech</option>
           <option value="Manu">Ankit</option>
         </select>
-        <button onClick={() => this.postDataHandler()}>Add Post</button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => this.postDataHandler()}
+        >
+          Add Post
+        </Button>
       </div>
     );
   }
